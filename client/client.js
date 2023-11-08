@@ -77,6 +77,49 @@ async function showLists() {
 }
 
 
+document.getElementById('addNewListButton').addEventListener('click', async () => {
+    const list = document.getElementById('listName').value;
+
+    try {
+        const rsp = await fetch('/lists', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name: list }),
+        });
+
+        if (rsp.status === 201) {
+            alert('List successfully created!');
+            showLists();
+        } else {
+            const err = await rsp.json();
+            alert(err.message);
+        }
+    } catch (error) {
+        console.error('Error creating a superhero new list:', error);
+    }
+});
+
+async function showLists() {
+    const lists = document.getElementById('allLists');
+    lists.innerHTML = ''; 
+
+    try {
+        const rsp = await fetch('/lists');
+        const shData = await rsp.json();
+        shData.forEach(list => {
+            const li = document.createElement('li');
+            li.textContent = list.name;
+            lists.appendChild(li);
+        });
+    } catch (error) {
+
+        console.error('Error fetching superhero lists:', error);
+    }
+}
+
+
 //array for all powers hard coded for search by power drop down button 
 const powers = [
     "Agility",
@@ -276,4 +319,34 @@ document.getElementById('searchByPowerBtn').addEventListener('click', async () =
     }
 });
 
+
+document.addEventListener('DOMContentLoaded', () => {
+    const serverHost = 'http://localhost:3000'; 
+
+    const addSHtoList = document.getElementById('addSuperheroesToList');
+
+    addSHtoList.onsubmit = async (event) => {
+        event.preventDefault(); 
+
+        const listName = document.getElementById('addSuperheroesToListName').value;
+        const superheroIds = document.getElementById('superheroIds').value.split(',').map(Number); 
+
+        try {
+            const rsp = await fetch(`${serverHost}/update-superhero-list`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ listName, superheroIds })
+            });
+            const rslt = await rsp.json();
+            console.log(rslt);
+        
+        } catch (err) {
+            console.error('Error adding superheroes list:', err);
+        }
+    };
+}); 
+
+showLists();
 
