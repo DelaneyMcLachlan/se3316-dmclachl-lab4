@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', () => {
     const serverURL = 'http://localhost:3000'; 
 
@@ -58,23 +57,6 @@ function displaySearchResults(results) { // function to hero search results
 
 });
 
-async function showLists() {
-    const lists = document.getElementById('allLists');
-    lists.innerHTML = ''; 
-
-    try {
-        const rsp = await fetch('/lists');
-        const shData = await rsp.json();
-        shData.forEach(list => {
-            const li = document.createElement('li');
-            li.textContent = list.name;
-            lists.appendChild(li);
-        });
-    } catch (error) {
-
-        console.error('Error fetching superhero lists:', error);
-    }
-}
 
 
 document.getElementById('addNewListButton').addEventListener('click', async () => {
@@ -118,7 +100,6 @@ async function showLists() {
         console.error('Error fetching superhero lists:', error);
     }
 }
-
 
 //array for all powers hard coded for search by power drop down button 
 const powers = [
@@ -316,6 +297,123 @@ document.getElementById('searchByPowerBtn').addEventListener('click', async () =
         });
     } catch (err) {
         console.error('Cannot fetch heroes by power:', err);
+    }
+});
+
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    const serverURL = 'http://localhost:3000'; 
+    const dropDownList = document.getElementById('superheroesListDropdown');
+    const detailsDsplayBtn = document.getElementById('showDetailsButton');
+    const displayHeroFields = document.getElementById('detailsDisplay');
+    const addListButton = document.getElementById('addNewListButton');
+    const allListsUl = document.getElementById('allLists');
+
+    
+    dropDownListUpdate();
+    fetchSHList();
+
+    addListButton.onclick = async () => {
+        const listName = document.getElementById('listName').value;
+        if (listName) {
+            try {
+                const rsp = await fetch(`${serverURL}/create-superhero-list-id`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ listName, superheroIds: [] }) 
+                });
+                const rslt = await rsp.json();
+                console.log(rslt);
+                dropDownListUpdate(); 
+                fetchSHList(); 
+            } catch (error) {
+                console.error('Error adding superheros lists:', error);
+            }
+        } else {
+            alert('Enter name of list.');
+        }
+    };
+
+
+    detailsDsplayBtn.onclick = async () => { //display after fetching superhero info for list
+        const listSelected = dropDownList.value;
+        if (listSelected) {
+            showSHInformation(listSelected);
+        } else {
+            alert('Please select a list.');
+        }
+    };
+    dropDownList.addEventListener('change', function() {
+        const selectedListName = this.value;
+        if (selectedListName) {
+            showSHInformation(selectedListName);
+        }
+    });
+
+    async function dropDownListUpdate() {
+        try {
+            const rsp = await fetch(`${serverURL}/get-superhero-lists`);
+            const availLists = await rsp.json();
+            dropDownList.innerHTML = '<option value="">Select a list</option>'; 
+            availLists.forEach(list => {
+                dropDownList.innerHTML += `<option value="${list.name}">${list.name}</option>`;
+            });
+        } catch (err) {
+            console.error('Error fetching lists:', err);
+        }
+    }
+
+  
+    async function fetchSHList() { //fetch and display lists
+        try {
+            const rsp = await fetch(`${serverURL}/get-superhero-lists`);
+            const shLists = await rsp.json();
+            allListsUl.innerHTML = shLists.map(list => `<li onclick="displaySuperheroDetails('${list.name}')">${list.name}</li>`).join('');
+        } catch (err) {
+            console.error('Error getting superhero lists:', err);
+        }
+    }
+
+ 
+    async function showSHInformation(listName) { //fetch & display sh info
+        try {
+            const rsp = await fetch(`${serverURL}/get-superhero-details/${listName}`);
+            const heroInfo = await rsp.json();
+            displayHeroFields.innerHTML = ''; 
+            heroInfo.forEach(hero => {
+                const heroElement = document.createElement('div');
+                heroElement.innerHTML = `
+                <h3>${hero.name}</h3>
+                <p>ID: ${hero.id}</p>
+                <p>Gender: ${hero.Gender}</p>
+                <p>Eye Color: ${hero['Eye color']}</p>
+                <p>Race: ${hero.Race}</p>
+                <p>Hair Color: ${hero['Hair color']}</p>
+                <p>Height: ${hero.Height}</p>
+                <p>Publisher: ${hero.Publisher}</p>
+                <p>Skin Color: ${hero['Skin color']}</p>
+                <p>Alignment: ${hero.Alignment}</p>
+                <p>Weight: ${hero.Weight}</p>
+            `;
+                displayHeroFields.appendChild(heroElement);
+
+                if (hero.powers) {
+                    const pwrs = document.createElement('ul');
+                    for (const [power, value] of Object.entries(hero.powers)) {
+                        if (value === 'True') {
+                            const itemPowers = document.createElement('li');
+                            itemPowers.textContent = power;
+                            pwrs.appendChild(itemPowers);
+                        }
+                    }
+                    heroElement.appendChild(pwrs);
+                }
+            });
+        } catch (err) {
+            console.error('Error fetching superhero information', err);
+        }
     }
 });
 

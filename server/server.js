@@ -149,10 +149,8 @@ app.post('/create-superhero-list-id', (req, res) => {
     }
 
     db.get('superheroLists')
-    .push({ name: listName, superheroes: superheroIds })
-     .write()
-    .then(() => console.log('Write successful'))
-    .catch(err => console.error('Error writing to db:', err));
+    .push({ name: listName, superheroes: superheroIds }).write()
+
 
 
     res.status(201).json({ success: true, message: 'Newlist made' });
