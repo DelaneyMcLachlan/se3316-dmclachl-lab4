@@ -1,1 +1,37 @@
-{}
+{
+  "heroList": [],
+  "superheroLists": [
+    {
+      "name": "myNewLists",
+      "superheroes": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "mysts",
+      "superheroes": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "ms",
+      "superheroes": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "dddms",
+      "superheroes": [
+        1,
+        2,
+        3
+      ]
+    }
+  ]
+}

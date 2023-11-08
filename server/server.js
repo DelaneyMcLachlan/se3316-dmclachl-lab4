@@ -14,6 +14,12 @@ const superHerosPowerData = JSON.parse(fs.readFileSync('JSONfiles/superhero_powe
 const adapter = new FileSync('db.json');  
 const db = low(adapter);
 
+db.defaults({ superheroLists: [] }).write();
+
+  app.use(express.static('client'));
+
+app.use(express.json());
+
 app.get('/', (req, res) => {
     res.send('Testing');
 });
@@ -49,12 +55,145 @@ app.get('/publishers', (req, res) => {
     res.json(pblisher);
 });
 
-//get names of heroes with powers
-app.get('/powers', (req, res) => {
-    const heroPowers = superHeroInfoData[0];
-    const pwrs = Object.keys(heroPowers).filter(key => key !== "hero_names");
-    res.json(pwrs);
+
+
+//get first n number of matching IDs for a search pattern given an info field
+//search?field=x&pattern=super&n=y
+app.get('/search', (req, res) => {
+    const { field, pattern, n: numberEntered } = req.query;
+
+    console.log(`Field: ${field}, Pattern: ${pattern}, N: ${numberEntered}`);
+
+    let shMatches = superHeroInfoData.filter(sh => {
+        const value = String(sh[field]).toLowerCase();
+        return value.includes(pattern.toLowerCase());
+    });
+
+    console.log(`N number of matching IDS for a search pattern for a given info field: ${JSON.stringify(shMatches)}`);
+
+    let ids = shMatches.map(sh => sh.id);
+ console.log(`IDs are: ${ids}`);
+
+    if (numberEntered) {
+        ids = ids.slice(0, parseInt(numberEntered, 10));
+    }
+
+    console.log(`First N IDs: ${ids}`);
+
+    if (ids.length > 0) {
+        res.json(ids);
+    } else {
+        res.status(404).send('Superhero not found');
+    }
 });
+
+
+
+// POST endpoint to create a new superhero list by IDs
+//curl request example
+//curl -X POST -H "Content-Type: application/json" -d "{\"listName\": \"myNewLists\", \"superheroIds\": [1, 2, 3]}" http://localhost:3000/create-superhero-list-id
+app.post('/create-superhero-list-id', (req, res) => {
+    const { listName, superheroIds } = req.body; 
+
+    const existingList = db.get('superheroLists')
+                         .find({ name: listName })
+                         .value();
+
+    if (existingList) {
+        return res.status(400).json({ error: 'List name already exists. Choose a different name.' });
+    }
+
+    db.get('superheroLists')
+    .push({ name: listName, superheroes: superheroIds })
+     .write()
+    .then(() => console.log('Write successful'))
+    .catch(err => console.error('Error writing to db:', err));
+
+
+    res.status(201).json({ success: true, message: 'Newlist made' });
+});
+
+
+//curl -X PUT -H "Content-Type: application/json" -d "{\"listName\": \"myNewLists\", \"superheroIds\": [25, 5, 45]}" http://localhost:3000/update-superhero-list 
+app.put('/update-superhero-list', (req, res) => {
+    const { listName, superheroIds } = req.body;
+
+
+    const existingList = db.get('superheroLists')
+                         .find({ name: listName })
+                         .value();
+
+    if (!existingList) {
+        return res.status(404).json({ error: 'List does not exist' });
+    }
+
+    db.get('superheroLists')
+      .find({ name: listName })
+      .assign({ superheroes: superheroIds }) 
+      .write();
+
+    res.status(200).json({ success: true, message: 'List updated' });
+});
+
+//shows available list
+app.get('/get-superhero-lists', (req, res) => {
+    const list = db.get('superheroLists').value();
+    res.json(list);
+});
+
+app.get('/get-superhero-list/:listName', (req, res) => {
+    const { listName } = req.params; 
+    const listAvailable = db.get('superheroLists')
+                   .find({ name: listName })
+                   .value();
+
+    if (listAvailable) {
+        return res.json(listAvailable.superheroes); 
+    }
+    res.status(404).json({ error: 'List not found' });
+});
+
+//example curl command for backend
+//curl -X DELETE http://localhost:3000/delete-superhero-list/xyz
+app.delete('/delete-superhero-list/:listName', (req, res) => {
+    const { listName } = req.params; 
+    const existingList = db.get('superheroLists')
+                         .find({ name: listName })
+                         .value();
+    if (existingList) {
+        db.get('superheroLists')
+          .remove({ name: listName })
+          .write();
+        return res.json({ success: true, message: 'List deleted' });
+    }
+
+    res.status(404).json({ error: 'List was not found' });
+});
+
+
+app.get('/get-superhero-details/:listName', async (req, res) => {
+
+    const { listName } = req.params;
+
+    const shList = db.get('superheroLists').find({ name: listName }).value();
+
+    if (!shList) {
+        return res.status(404).json({ error: 'List not found' });
+    }
+    const shInfo = shList.superheroes.map(id => {
+        return superHeroInfoData.find(hero => hero.id === id);
+    });
+    const shPowers = shInfo.map(detail => {
+        return superHerosPowerData.find(power => power.hero_names === detail.name);
+    });
+    const detailsObject = shInfo.map((detail, index) => {
+        return { ...detail, powers: shPowers[index] };
+    });
+
+    res.json(detailsObject);
+});
+
+
 
 app.listen(PORT, () => {
     console.log(`Running server hosted at http://localhost:${PORT}`);
