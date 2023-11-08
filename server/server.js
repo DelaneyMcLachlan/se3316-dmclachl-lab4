@@ -25,6 +25,35 @@ app.get('/', (req, res) => {
 });
 
 
+app.get('/search-superheroes', (req, res) => {
+    const { field, value } = req.query;
+  
+    if (!field || !value) {
+      return res.status(400).json({ error: 'Add field and value for search' });
+    }
+  
+    let queriesResult;
+    switch (field.toLowerCase()) {
+      case 'name':
+        queriesResult = superHeroInfoData.filter(hero => hero.name.toLowerCase().includes(value.toLowerCase()));
+        break;
+      case 'id':
+        queriesResult = superHeroInfoData.filter(hero => hero.id === Number(value));
+        break;
+      case 'publisher':
+        queriesResult = superHeroInfoData.filter(hero => hero.Publisher && hero.Publisher.toLowerCase().includes(value.toLowerCase()));
+        break;
+      case 'race':
+        queriesResult = superHeroInfoData.filter(hero => hero.Race && hero.Race.toLowerCase().includes(value.toLowerCase()));
+        break;
+      default:
+        return res.status(400).json({ error: 'Invalid field' });
+    }
+    res.json(queriesResult);
+  });
+
+
+
 //get all superhero info for a given superhero id
 app.get('/superhero/:id', (req, res) => {
     const idNumber = parseInt(req.params.id);
@@ -55,7 +84,21 @@ app.get('/publishers', (req, res) => {
     res.json(pblisher);
 });
 
+//get names of heroes with powers
+app.get('/powers', (req, res) => {
+    const heroPowers = superHeroInfoData[0];
+    const pwrs = Object.keys(heroPowers).filter(key => key !== "hero_names");
+    res.json(pwrs);
+});
 
+
+//const superheroPowersData = require('JSONfiles/superhero_powers.json');
+
+app.get('/searchByPower', (req, res) => {
+    const { power } = req.query;
+    const shMatch = superHerosPowerData.filter(sh => sh[power] === "True").map(sh => sh.hero_names);
+    res.json(shMatch);
+});
 
 //get first n number of matching IDs for a search pattern given an info field
 //search?field=x&pattern=super&n=y
