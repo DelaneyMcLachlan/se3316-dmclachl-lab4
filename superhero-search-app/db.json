@@ -69,6 +69,14 @@
         3,
         4
       ]
+    },
+    {
+      "name": "mynewlist",
+      "superheroes": [
+        3,
+        4,
+        5
+      ]
     }
   ]
 }

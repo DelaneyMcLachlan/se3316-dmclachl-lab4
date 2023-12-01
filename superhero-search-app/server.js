@@ -5,7 +5,11 @@ import FileSync from 'lowdb/adapters/FileSync.js';
 
 
 const app = express(); //intitializes express app
-const PORT = 3000; //defines the port number
+const PORT = process.env.PORT || 3001;
+
+const cors = require('cors');
+app.use(cors());
+
 
 //parses json data
 const superHeroInfoData = JSON.parse(fs.readFileSync('JSONfiles/superhero_info.json', 'utf8'));

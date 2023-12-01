@@ -1,2 +1,5 @@
 JSONfiles/
 node_modules/
+Lab3Files/
+!Lab3Files/server/server.js
+!Lab3Files/Usersdb.json
