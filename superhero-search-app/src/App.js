@@ -19,11 +19,12 @@ function App() {
                 <>
                     <RegistrationForm />
                     <LoginComponent onLoginSuccess={handleLoginSuccess} />
+                    <SuperheroSearch />
+                    <SuperheroPowerSearch />
                 </>
             ) : (
                 <>
-                    <SuperheroSearch />
-                    <SuperheroPowerSearch />
+                    
                     <SuperheroListManager />
                 </>
             )}

@@ -10,7 +10,7 @@ const LoginComponent = ({ onLoginSuccess }) => {
         event.preventDefault();
     
         try {
-            const response = await fetch('/login', {
+            const response = await fetch('http://localhost:3001/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ const LoginComponent = ({ onLoginSuccess }) => {
     
             
             if (response.ok) { // If the response status is 200 (OK), consider it a successful login
-                onLoginSuccess(); // This needs to be passed as a prop to LoginComponent
+                onLoginSuccess(username); // This needs to be passed as a prop to LoginComponent
             }
     
 

@@ -1,63 +1,112 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const SuperheroListManager = () => {
-    const [lists, setLists] = useState([]);
+    const [username, setUsername] = useState('');
     const [newListName, setNewListName] = useState('');
-    const [superheroIds, setSuperheroIds] = useState('');
+    const [description, setDescription] = useState('');
+    const [superheroes, setSuperheroes] = useState('');
 
-    // Function to fetch lists
-    const fetchLists = () => {
-        fetch('http://localhost:3001/get-superhero-lists')
-            .then(response => response.json())
-            .then(data => setLists(data))
-            .catch(error => console.error('Error fetching lists:', error));
+    const handleUsernameChange = (event) => {
+        setUsername(event.target.value);
     };
 
-    // Fetch lists initially and after every update
-    useEffect(fetchLists, []);
+    const handleListNameChange = (event) => {
+        setNewListName(event.target.value);
+    };
 
-    const handleCreateList = () => {
-        fetch('http://localhost:3001/create-superhero-list-id', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ listName: newListName, superheroIds: superheroIds.split(',').map(Number) }),
-        })
-        .then(response => response.json())
-        .then(() => {
+    const handleDescriptionChange = (event) => {
+        setDescription(event.target.value);
+    };
+
+    const handleSuperheroesChange = (event) => {
+        setSuperheroes(event.target.value);
+    };
+
+    const createList = async () => {
+        const superheroIds = superheroes.split(',')
+            .map(id => parseInt(id.trim(), 10)) // Parse each ID to a number
+            .filter(id => !isNaN(id)); // Filter out invalid numbers
+
+        const listData = {
+            username,
+            listName: newListName,
+            superheroIds,
+            description
+        };
+
+        try {
+            const response = await fetch('http://localhost:3001/create-superhero-list-id', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(listData),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Network response was not ok (${response.status})`);
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error('Error creating list:', error);
+            return null;
+        }
+    };
+
+    const handleCreateList = async (event) => {
+        event.preventDefault();
+        const newList = await createList();
+        if (newList) {
+            alert('New list created successfully!');
+            setUsername('');
             setNewListName('');
-            setSuperheroIds('');
-            fetchLists(); // Re-fetch lists to update the UI
-        })
-        .catch(error => console.error('Error creating list:', error));
+            setDescription('');
+            setSuperheroes('');
+        }
     };
 
     return (
         <div>
-            <input 
-                type="text" 
-                value={newListName} 
-                onChange={(e) => setNewListName(e.target.value)} 
-                placeholder="List Name" 
-            />
-            <input 
-                type="text" 
-                value={superheroIds} 
-                onChange={(e) => setSuperheroIds(e.target.value)} 
-                placeholder="Superhero IDs (comma-separated)" 
-            />
-            <button onClick={handleCreateList}>Create List</button>
-
-            <div>
-                <h2>Superhero Lists</h2>
-                {lists.map(list => (
-                    <div key={list.name}>
-                        <h3>{list.name}</h3>
-                        <p>Superhero IDs: {list.superheroes.join(', ')}</p>
-                    </div>
-                ))}
-            </div>
+            <h2>Create New Superhero List</h2>
+            <form onSubmit={handleCreateList}>
+                <div>
+                    <input 
+                        type="text" 
+                        placeholder="Enter Username"
+                        value={username}
+                        onChange={handleUsernameChange}
+                    />
+                </div>
+                <div>
+                    <input 
+                        type="text" 
+                        placeholder="Enter New List Name"
+                        value={newListName}
+                        onChange={handleListNameChange}
+                    />
+                </div>
+                <div>
+                    <input 
+                        type="text" 
+                        placeholder="Enter Superhero IDs (comma-separated)"
+                        value={superheroes}
+                        onChange={handleSuperheroesChange}
+                    />
+                </div>
+                <div>
+                    <input 
+                        type="text" 
+                        placeholder="Enter Description"
+                        value={description}
+                        onChange={handleDescriptionChange}
+                    />
+                </div>
+                <button type="submit">Create List</button>
+            </form>
         </div>
     );
 };
 
 export default SuperheroListManager;
+

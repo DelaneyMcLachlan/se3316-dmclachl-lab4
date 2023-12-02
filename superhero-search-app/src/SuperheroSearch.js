@@ -47,6 +47,10 @@ const SuperheroSearch = () => {
 
     return (
         <div>
+ <div className="welcome-message">
+            Welcome to Superhero Search and Save! Search by text or by power.
+            Please log in for list functionality.
+        </div>
             <div>
                 <button onClick={fetchSuperheroes}>Display Superheros</button>
             </div>
