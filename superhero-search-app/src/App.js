@@ -5,6 +5,8 @@ import SuperheroSearch from './SuperheroSearch';
 import SuperheroPowerSearch from './SearchByPower';
 import SuperheroListManager from './ListManager';
 import LoginComponent from './LoginComponent';
+import UpdatePassword from './UpdatePassword';
+import PublicSuperheroLists from './PublicSuperheroLists';
 
 function App() {
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
@@ -19,6 +21,7 @@ function App() {
                 <>
                     <RegistrationForm />
                     <LoginComponent onLoginSuccess={handleLoginSuccess} />
+                    <PublicSuperheroLists />
                     <SuperheroSearch />
                     <SuperheroPowerSearch />
                 </>
@@ -26,6 +29,8 @@ function App() {
                 <>
                     
                     <SuperheroListManager />
+                    <UpdatePassword />
+
                 </>
             )}
         </div>

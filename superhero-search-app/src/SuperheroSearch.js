@@ -1,21 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Fuse from 'fuse.js';
 
 const SuperheroSearch = () => {
     const [superheroes, setSuperheroes] = useState([]);
+    const [fuse, setFuse] = useState(null); // Initialize Fuse instance
     const [nameSearch, setNameSearch] = useState('');
     const [raceSearch, setRaceSearch] = useState('');
     const [publisherSearch, setPublisherSearch] = useState('');
     const [idSearch, setIdSearch] = useState('');
+    const [expandedHeroId, setExpandedHeroId] = useState(null);
 
+    // Function to fetch superheroes
     const fetchSuperheroes = () => {
         fetch('JSONfiles/superhero_info.json')
             .then(response => response.json())
             .then(data => {
                 setSuperheroes(data);
+                const options = { keys: ['name'] }; // Search only in 'name' key
+                setFuse(new Fuse(data, options));
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
+    };
+    const toggleHeroDetails = (heroId) => {
+        setExpandedHeroId(expandedHeroId === heroId ? null : heroId);
     };
 
     const handleNameSearchChange = (event) => {
@@ -34,25 +43,43 @@ const SuperheroSearch = () => {
         setIdSearch(event.target.value);
     };
 
+    const removeWhiteSpace = (str) => str.replace(/\s+/g, '');
+
     const filterHeroes = () => {
-        return superheroes.filter(hero => {
-            return (nameSearch && hero.name.toLowerCase().includes(nameSearch)) ||
-                   (raceSearch && hero.Race.toLowerCase().includes(raceSearch)) ||
-                   (publisherSearch && hero.Publisher.toLowerCase().includes(publisherSearch)) ||
-                   (idSearch && hero.id.toString() === idSearch);
+        let filtered = superheroes;
+
+        // Apply fuzzy search for name
+        if (nameSearch && fuse) {
+            const results = fuse.search(nameSearch);
+            filtered = results.map(result => result.item);
+        }
+
+        // Apply other filters
+        filtered = filtered.filter(hero => {
+            const isRaceMatch = !raceSearch || removeWhiteSpace(hero.Race.toLowerCase()).includes(removeWhiteSpace(raceSearch));
+            const isPublisherMatch = !publisherSearch || removeWhiteSpace(hero.Publisher.toLowerCase()).includes(removeWhiteSpace(publisherSearch));
+            const isIdMatch = !idSearch || hero.id.toString() === idSearch.trim();
+
+            return isRaceMatch && isPublisherMatch && isIdMatch;
         });
+
+        return filtered;
     };
 
     const filteredHeroes = filterHeroes();
 
+    const searchDuckDuckGo = (name) => {
+        return `https://duckduckgo.com/?q=${encodeURIComponent(name)}`;
+    };
+
     return (
         <div>
- <div className="welcome-message">
-            Welcome to Superhero Search and Save! Search by text or by power.
-            Please log in for list functionality.
-        </div>
+            <div className="welcome-message">
+                Welcome to Superhero Search and Save! Search by text or by power.
+                Please log in for list functionality.
+            </div>
             <div>
-                <button onClick={fetchSuperheroes}>Display Superheros</button>
+                <button onClick={fetchSuperheroes}>Display Superheroes</button>
             </div>
             <div>
                 <input 
@@ -78,18 +105,42 @@ const SuperheroSearch = () => {
             </div>
 
             {filteredHeroes.map(hero => (
-                <div key={hero.id} style={{ margin: '10px 0' }}>
-                              <div>Name: {hero.name}</div>
-                              <div>ID: {hero.id}</div>
-                    <div>Gender: {hero.Gender}</div>
-                    <div>Eye Color: {hero['Eye color']}</div>
-                    <div>Race: {hero.Race}</div>
-                    <div>Hair Color: {hero['Hair color']}</div>
-                    <div>Height: {hero.Height !== -99 ? hero.Height + ' cm' : 'Unknown'}</div>
-                    <div>Publisher: {hero.Publisher}</div>
-                    <div>Skin Color: {hero['Skin color']}</div>
-                    <div>Alignment: {hero.Alignment}</div>
-                    <div>Weight: {hero.Weight !== -99 ? hero.Weight + ' kg' : 'Unknown'}</div>
+                <div key={hero.id} style={{ margin: '10px 0', cursor: 'pointer' }}>
+                    <div onClick={() => toggleHeroDetails(hero.id)}>
+                        <div><b>Name:</b> {hero.name} <b>Publisher:</b> {hero.Publisher}</div>
+                        <div>Click to expand.</div>
+                    </div>
+                    {expandedHeroId === hero.id && (
+                        <div>
+                            <div>ID: {hero.id}</div>
+                            <div>Gender: {hero.Gender}</div>
+                            <div>Eye Color: {hero['Eye color']}</div>
+                            <div>Race: {hero.Race}</div>
+                            <div>Hair Color: {hero['Hair color']}</div>
+                            <div>Height: {hero.Height !== -99 ? hero.Height + ' cm' : 'Unknown'}</div>
+                            <div>Skin Color: {hero['Skin color']}</div>
+                            <div>Alignment: {hero.Alignment}</div>
+                            <div>Weight: {hero.Weight !== -99 ? hero.Weight + ' kg' : 'Unknown'}</div>
+                                  {/* "Search on DDG" button */}
+                        <a 
+                            href={searchDuckDuckGo(hero.name)} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            style={{
+                                display: 'inline-block',
+                                marginTop: '10px',
+                                padding: '10px 20px',
+                                backgroundColor: 'gray', // Button color
+                                color: 'white', // Text color
+                                textAlign: 'center',
+                                textDecoration: 'none',
+                                borderRadius: '5px',
+                            }}
+                        >
+                            Search on DDG
+                        </a>
+                        </div>
+                    )}
                 </div>
             ))}
         </div>

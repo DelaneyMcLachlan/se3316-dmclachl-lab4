@@ -7,6 +7,7 @@ const RegistrationForm = () => {
     const [nickname, setNickname] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
+
     const handleUsernameChange = (event) => {
         setUsername(event.target.value);
     };
@@ -25,6 +26,12 @@ const RegistrationForm = () => {
 
     const handleRegistration = async (event) => {
         event.preventDefault();
+
+                  // Check for empty fields
+    if (!username || !email || !password || !nickname) {
+        setErrorMessage('Please fill in all fields');
+        return; // Stop the function if any field is empty
+    }
 
             // Email validation regex pattern
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -63,6 +70,7 @@ const RegistrationForm = () => {
         }
     
         // Consider resetting form fields here upon successful registration
+       // setErrorMessage('');
     };
 
     return (
@@ -73,7 +81,7 @@ const RegistrationForm = () => {
             </div>
             <div>
                 <label>Email:</label>
-                <input type="email" value={email} onChange={handleEmailChange} required />
+                <input type="text" value={email} onChange={handleEmailChange} required />
             </div>
             <div>
                 <label>Password:</label>
@@ -83,6 +91,7 @@ const RegistrationForm = () => {
                 <label>Nickname:</label>
                 <input type="text" value={nickname} onChange={handleNicknameChange} required />
             </div>
+            {errorMessage && <div className="error">{errorMessage}</div>}
             <button type="submit">Register</button>
         </form>
     );
