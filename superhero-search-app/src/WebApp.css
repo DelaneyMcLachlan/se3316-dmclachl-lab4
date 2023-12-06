@@ -1,0 +1,103 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    text-align: center; /* Centers text and inline elements */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center; /* Centers vertically */
+    min-height: 100vh; /* Full viewport height for vertical centering */
+}
+
+h2, h3 {
+    color: #034f84;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #0275d8;
+}
+
+input[type="text"], input[type="email"], input[type="password"], textarea, select {
+    width: 50%; /* Adjusted from 100% to 50% */
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #b0d4e3;
+    border-radius: 4px;
+    display: block; /* Ensures inputs are block-level elements */
+    margin-left: auto; /* Centers the input */
+    margin-right: auto; /* Centers the input */
+}
+
+input[type="radio"] {
+    margin-right: 5px;
+}
+
+button {
+    background-color: #0275d8;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+button:hover {
+    background-color: #025aa5;
+}
+
+.error {
+    color: red;
+    margin-bottom: 10px;
+}
+
+a {
+    color: #0275d8;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Styles for Container Elements */
+.container, .list-container, .flex-container, .grid-container {
+    width: 80%; /* Adjust width as needed */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Specific to elements with a 'welcome-message' class */
+.welcome-message {
+    background-color: #b0d4e3;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+/* Styles for the Grid Layout */
+.lists {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 10px;
+    margin-bottom: 20px;
+}
+
+.list-item {
+    background-color: #e7eff6;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    min-height: 100px;
+}
+
+@media (max-width: 768px) {
+    .lists {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

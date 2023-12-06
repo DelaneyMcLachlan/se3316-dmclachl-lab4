@@ -63,6 +63,7 @@ const LoginComponent = ({ onLoginSuccess }) => {
     return (
         <form  onSubmit={handleLogin} >
             <div>
+                <h2>Login Here!</h2>
                 <label>Email:</label>
                 <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} required />
             </div>

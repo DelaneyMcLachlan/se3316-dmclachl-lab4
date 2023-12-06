@@ -76,6 +76,11 @@ const RegistrationForm = () => {
     return (
         <form onSubmit={handleRegistration}>
             <div>
+            <div className="welcome-message">
+                Welcome to Superhero Search and Save! Search by text or by power.
+                Please log in for list functionality.
+            </div>
+            <h2>Register an Account Here!</h2>
                 <label>Username:</label>
                 <input type="text" value={username} onChange={handleUsernameChange} required />
             </div>

@@ -29,6 +29,8 @@ const UpdatePassword = () => {
     };
 
     return (
+        <div>
+            <h2>Change Password</h2>
         <form onSubmit={handleSubmit}>
             <div>
                 <label>Email:</label>
@@ -41,6 +43,7 @@ const UpdatePassword = () => {
             <button type="submit">Update Password</button>
             {message && <div>{message}</div>}
         </form>
+        </div>
     );
 };
 

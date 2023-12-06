@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './App.css';
+import './WebApp.css';
 import RegistrationForm from './RegistrationForm';
 import SuperheroSearch from './SuperheroSearch'; 
 import SuperheroPowerSearch from './SearchByPower';
@@ -36,10 +36,11 @@ function App() {
                 </>
            ) : (
             <>
-                <SuperheroListManager />
+                
                 <UpdatePassword />
                 <CreateSuperheroList email={loggedInEmail} onListUpdate={handleListUpdate} />
                 <UserLists email={loggedInEmail} updateTrigger={updateTrigger} />
+                <PublicSuperheroLists />
             </>
         )}
     </div>
