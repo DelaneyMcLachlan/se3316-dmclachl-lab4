@@ -1,5 +1,6 @@
 JSONfiles/
 node_modules/
-Lab3Files/
-!Lab3Files/server/server.js
-!Lab3Files/Usersdb.json
+Lab3Files/client
+Lab3Files/package-lock.json
+Lab3Files/package.json
+Lab3Files/reviews.json

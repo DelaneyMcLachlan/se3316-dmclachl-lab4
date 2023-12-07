@@ -1,0 +1,115 @@
+{
+  "heroList": [],
+  "superheroLists": [
+    {
+      "name": "myNewLists",
+      "superheroes": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "mysts",
+      "superheroes": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "ms",
+      "superheroes": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "dddms",
+      "superheroes": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "myNewList",
+      "superheroes": [
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "name": "myNewList2",
+      "superheroes": []
+    },
+    {
+      "name": "65",
+      "superheroes": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "name": "myNewestList",
+      "superheroes": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "™¾",
+      "superheroes": [
+        3,
+        4
+      ]
+    },
+    {
+      "name": "mynewlist",
+      "superheroes": [
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "name": "Test List",
+      "superheroes": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "test",
+      "superheroes": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "testlist",
+      "superheroes": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "testuser",
+      "password": "testpass",
+      "email": "testuser@example.com",
+      "nickname": "testnick",
+      "disableFlag": "enabled"
+    }
+  ]
+}

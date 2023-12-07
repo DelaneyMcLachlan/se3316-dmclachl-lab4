@@ -1,0 +1,353 @@
+{
+  "users": [
+    {
+      "username": "testuser",
+      "password": "testpass",
+      "email": "testuser@example.com",
+      "nickname": "testnick",
+      "disableFlag": "disabled"
+    },
+    {
+      "username": "del",
+      "password": "1234",
+      "email": "d@gmail.com",
+      "nickname": "delaney",
+      "disableFlag": "enabled"
+    },
+    {
+      "username": "s",
+      "password": "s",
+      "email": "s@f.com",
+      "nickname": "sd",
+      "disableFlag": "enabled"
+    },
+    {
+      "username": "sally",
+      "password": "s",
+      "email": "sally@f.com",
+      "nickname": "sd",
+      "disableFlag": "enabled"
+    },
+    {
+      "username": "del1",
+      "password": "123",
+      "email": "del@gmail.com",
+      "nickname": "123",
+      "disableFlag": "enabled"
+    },
+    {
+      "username": "sam",
+      "password": "123",
+      "email": "sam@gmail.com",
+      "nickname": "sam",
+      "disableFlag": "enabled"
+    },
+    {
+      "username": "newUser",
+      "password": "1",
+      "email": "n@gmail.com",
+      "nickname": "user Test",
+      "disableFlag": "enabled",
+      "lists": [
+        {
+          "listName": "My Superhero List",
+          "superheroes": [
+            4,
+            5,
+            6
+          ],
+          "visibility": "private"
+        },
+        {
+          "listName": "test",
+          "visibility": "private"
+        },
+        {
+          "listName": "tt",
+          "visibility": "private"
+        },
+        {
+          "listName": "My New Superhero List",
+          "superheroes": [
+            1,
+            2,
+            3
+          ],
+          "visibility": "private",
+          "description": "This is a test list.",
+          "lastEdited": "2023-12-01T21:05:48.340Z",
+          "rating": 0
+        },
+        {
+          "listName": "Mst",
+          "superheroes": [
+            1,
+            2,
+            3
+          ],
+          "visibility": "private",
+          "description": "This is a test list.",
+          "lastEdited": "2023-12-02T18:26:13.987Z",
+          "rating": 0
+        },
+        {
+          "listName": "t",
+          "superheroes": [
+            1,
+            2,
+            3
+          ],
+          "visibility": "private",
+          "description": "This is a test list.",
+          "lastEdited": "2023-12-02T18:52:13.191Z",
+          "rating": 0
+        }
+      ]
+    },
+    {
+      "username": "user",
+      "password": "123",
+      "email": "user@hotmail.com",
+      "nickname": "name",
+      "disableFlag": "enabled",
+      "lists": []
+    },
+    {
+      "username": "izzy",
+      "password": "123",
+      "email": "iz@gmail.com",
+      "nickname": "izzy",
+      "disableFlag": "enabled",
+      "lists": [
+        {
+          "listName": "t",
+          "superheroes": [
+            1,
+            2,
+            3
+          ],
+          "visibility": "public",
+          "description": "This is a test list.",
+          "lastEdited": "2023-12-02T18:55:25.882Z",
+          "rating": 0
+        },
+        {
+          "listName": "new",
+          "visibility": "public",
+          "description": "test",
+          "lastEdited": "2023-12-02T19:16:25.234Z",
+          "rating": 0
+        },
+        {
+          "listName": "test",
+          "visibility": "public",
+          "description": "hi",
+          "lastEdited": "2023-12-02T19:19:38.353Z",
+          "rating": 0
+        },
+        {
+          "listName": "test1",
+          "visibility": "private",
+          "description": "test",
+          "lastEdited": "2023-12-02T19:23:29.490Z",
+          "rating": 0
+        },
+        {
+          "listName": "new list ",
+          "superheroes": [
+            1,
+            2,
+            3
+          ],
+          "visibility": "public",
+          "description": "test",
+          "lastEdited": "2023-12-02T19:26:23.114Z",
+          "rating": 0
+        },
+        {
+          "superheroes": [
+            1,
+            2,
+            3
+          ],
+          "visibility": "private",
+          "description": "This is a test list.",
+          "lastEdited": "2023-12-03T23:43:12.441Z",
+          "rating": 0
+        },
+        {
+          "listName": "my newest list",
+          "superheroes": [
+            10,
+            12
+          ],
+          "visibility": "public",
+          "description": "my new list",
+          "lastEdited": "2023-12-04T21:20:11.547Z",
+          "rating": 0
+        },
+        {
+          "listName": "my list test",
+          "superheroes": [
+            4
+          ],
+          "visibility": "public",
+          "description": "test",
+          "lastEdited": "2023-12-04T21:21:45.840Z",
+          "rating": 0
+        },
+        {
+          "listName": "My Superht",
+          "superheroes": [
+            1,
+            2,
+            3
+          ],
+          "visibility": "private",
+          "description": "A list of my favorite superheroes",
+          "lastEdited": "2023-12-04T21:56:33.423Z",
+          "rating": 0
+        },
+        {
+          "listName": "Name",
+          "superheroes": [
+            1,
+            3
+          ],
+          "visibility": "private",
+          "description": "sdffsf",
+          "lastEdited": "2023-12-04T22:30:32.491Z",
+          "rating": 0
+        }
+      ]
+    },
+    {
+      "username": "IzzyBizzyRizzy",
+      "password": "1234567890",
+      "email": "Jizzler@urmom.com",
+      "nickname": "Jizzler",
+      "disableFlag": "enabled",
+      "lists": [
+        {
+          "listName": "My Superhero List",
+          "superheroes": [
+            1,
+            2,
+            3
+          ],
+          "visibility": "public",
+          "description": "A list of my favorite superheroes",
+          "lastEdited": "2023-12-04T21:50:30.670Z",
+          "rating": 0
+        },
+        {
+          "listName": "mylisy",
+          "superheroes": [
+            1,
+            2,
+            3
+          ],
+          "visibility": "public",
+          "description": "asfsdf",
+          "lastEdited": "2023-12-04T22:05:19.222Z",
+          "rating": 0
+        },
+        {
+          "listName": "my second list",
+          "superheroes": [
+            1,
+            2,
+            3
+          ],
+          "visibility": "ppublic",
+          "description": "trying again",
+          "lastEdited": "2023-12-04T22:05:58.405Z",
+          "rating": 0
+        },
+        {
+          "listName": "again",
+          "superheroes": [
+            1,
+            4,
+            5
+          ],
+          "visibility": "public",
+          "description": "1, 4, 5",
+          "lastEdited": "2023-12-04T22:07:44.942Z",
+          "rating": 0
+        },
+        {
+          "listName": "sfdsfsdf",
+          "superheroes": [
+            1,
+            2,
+            3
+          ],
+          "visibility": "private",
+          "description": "sdgdsfgf",
+          "lastEdited": "2023-12-04T22:19:08.377Z",
+          "rating": 0
+        }
+      ]
+    },
+    {
+      "username": "delaney",
+      "password": "123",
+      "email": "test@gmail.com",
+      "nickname": "test",
+      "disableFlag": "enabled",
+      "lists": [
+        {
+          "listName": "myList",
+          "superheroes": [
+            123
+          ],
+          "visibility": "public",
+          "description": "sfrdgertert",
+          "lastEdited": "2023-12-06T23:07:54.967Z",
+          "rating": 0
+        }
+      ]
+    },
+    {
+      "username": "administrator",
+      "password": "123",
+      "email": "administrator@admin.com",
+      "nickname": "admin",
+      "disableFlag": "enabled",
+      "lists": []
+    },
+    {
+      "username": "werwer",
+      "password": "123",
+      "email": "ewe@gmail.com",
+      "nickname": "username",
+      "disableFlag": "enabled",
+      "lists": []
+    },
+    {
+      "username": "myUser3",
+      "password": "1234",
+      "email": "user222@gmail.com",
+      "nickname": "user",
+      "disableFlag": "enabled",
+      "lists": []
+    },
+    {
+      "username": "username",
+      "password": "$2b$10$0CruEpwGf1.5vSLMTKnhseYUck52h.PLL0RKJaQDH3kYprDTm.SKS",
+      "email": "username@gmail.com",
+      "nickname": "User",
+      "disableFlag": "enabled",
+      "lists": []
+    },
+    {
+      "username": "User100",
+      "password": "$2b$10$qg5H6RmqJfH0vb6xJwW0heDADTtvpWYmwND1wf9Egx7PgM5p6G9eO",
+      "email": "sdfds@gmail.com",
+      "nickname": "User",
+      "disableFlag": "enabled",
+      "lists": []
+    }
+  ]
+}
