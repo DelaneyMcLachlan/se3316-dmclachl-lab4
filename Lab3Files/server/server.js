@@ -105,45 +105,7 @@ async (req, res) => {
         res.status(500).send('Error in registering user');
     }
 });
-/* 
-app.post('/register', async (req, res) => {
-    try {
-        const { username, password, email, nickname } = req.body;
 
-        // Email validation regex pattern
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        // Check if the email is in valid format
-        if (!emailRegex.test(email)) {
-            return res.status(400).send('Invalid email format');
-        }
-
-        // Check if the username or email already exists
-        const isUserExist = usersDB.get('users').find({ username }).value() ||
-                            usersDB.get('users').find({ email }).value();
-
-        if (isUserExist) {
-            return res.status(400).send('Username or email already exists');
-        }
-
-        // Creating a new user object with an empty 'lists' array
-        const newUser = { 
-            username, 
-            password, 
-            email, 
-            nickname, 
-            disableFlag: 'enabled',
-            lists: [] // An empty array to store user's lists
-        };
-
-        // Add user to DB
-        usersDB.get('users').push(newUser).write();
-
-        res.status(200).send('User registered successfully');
-    } catch (error) {
-        res.status(500).send('Error in registering user');
-    }
-}); */
 
 
 app.post('/login', 
@@ -204,16 +166,6 @@ function authenticateToken(req, res, next) {
         next();
     });
 }
-/* app.get('/protected', authenticateToken, (req, res) => {
-    // Only accessible if the user is authenticated
-});
-
-const accessToken = localStorage.getItem('accessToken');
-fetch('http://localhost:3001/protected', {
-    headers: {
-        'Authorization': `Bearer ${accessToken}`
-    }
-}); */
 
 app.post('/updatepassword', async (req, res) => {
     const { email, newPassword } = req.body;
@@ -358,100 +310,6 @@ app.get('/search', (req, res) => {
 
 
 
-// POST endpoint to create a new superhero list by IDs
-//curl request example
-//curl -X POST -H "Content-Type: application/json" -d "{\"listName\": \"myNewLists\", \"superheroIds\": [1, 2, 3]}" http://localhost:3000/create-superhero-list-id
-/* app.post('/create-superhero-list-id', (req, res) => {
-    const { listName, superheroIds } = req.body; 
-
-    const existingList = db.get('superheroLists')
-                         .find({ name: listName })
-                         .value();
-
-    if (existingList) {
-        return res.status(400).json({ error: 'List name already exists. Choose a different name.' });
-    }
-
-    db.get('superheroLists')
-    .push({ name: listName, superheroes: superheroIds }).write()
-
-
-
-    res.status(201).json({ success: true, message: 'Newlist made' });
-}); */
-
-
-//curl -X PUT -H "Content-Type: application/json" -d "{\"listName\": \"myNewLists\", \"superheroIds\": [25, 5, 45]}" http://localhost:3000/update-superhero-list 
-/* app.put('/update-superhero-list', (req, res) => {
-    const { listName, superheroIds } = req.body;
-
-
-    const existingList = db.get('superheroLists')
-                         .find({ name: listName })
-                         .value();
-
-    if (!existingList) {
-        return res.status(404).json({ error: 'List does not exist' });
-    }
-
-    db.get('superheroLists')
-      .find({ name: listName })
-      .assign({ superheroes: superheroIds }) 
-      .write();
-
-    res.status(200).json({ success: true, message: 'List updated' });
-}); */
-
-/* 
-app.post('/create-superhero-list-id', (req, res) => {
-    const { username, listName, superheroIds } = req.body;
-
-    const users = usersDB.get('users').value();
-    const user = users.find(user => user.username === username);
-
-    if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-    }
-
-    const existingList = user.lists.find(list => list.listName === listName);
-
-    if (existingList) {
-        return res.status(400).json({ error: 'List name already exists. Choose a different name.' });
-    }
-
-    user.lists.push({ listName, superheroes: superheroIds, visibility: 'private' }); // Default visibility to 'private'
-    usersDB.write(); // Make sure to write the changes to the DB
-
-    res.status(201).json({ success: true, message: 'New list created' });
-}); */
-
-/* app.post('/create-superhero-list-id', (req, res) => {
-    const { username, listName, superheroes } = req.body;
-
-    // Fetch user from the database
-    const user = usersDB.get('users').find({ username }).value();
-
-    if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-    }
-
-    // Check if list already exists
-    const existingList = user.lists && user.lists.find(list => list.listName === listName);
-    if (existingList) {
-        return res.status(400).json({ error: 'List name already exists. Choose a different name.' });
-    }
-
-    // Add new list to the user's lists
-    usersDB.get('users')
-           .find({ username })
-           .get('lists')
-           .push({ listName, superheroes, visibility: 'private' })
-           .write();
-
-    res.status(201).json({ success: true, message: 'New list created' });
-}); */
-
-
 app.post('/create-superhero-list-id', (req, res) => {
     const { email, listName, superheroIds, description } = req.body;
     const currentTime = new Date().toISOString(); // Get the current time in ISO format
@@ -553,28 +411,6 @@ app.delete('/delete-superhero-list', (req, res) => {
 });
 
 
-/* app.put('/update-superhero-list', (req, res) => {
-    const { username, listName, superheroIds } = req.body;
-
-    const users = usersDB.get('users').value();
-    const user = users.find(user => user.username === username);
-
-    if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-    }
-
-    const list = user.lists.find(list => list.listName === listName);
-
-    if (!list) {
-        return res.status(404).json({ error: 'List does not exist' });
-    }
-
-    list.superheroes = superheroIds; // Update the superheroes in the list
-    usersDB.write(); // Make sure to write the changes to the DB
-
-    res.status(200).json({ success: true, message: 'List updated' });
-});
- */
 function getSuperheroDetailsById(ids) {
     return ids.map(id => {
       // Find the superhero by ID
@@ -645,7 +481,7 @@ function getSuperheroDetailsById(ids) {
     res.status(200).json({ message: 'Review added successfully' });
 });
 
-// Rest of your server code...
+
 
   app.get('/users/:email/lists', (req, res) => {
     // Extract the email from the route parameter
@@ -715,8 +551,7 @@ app.get('/get-superhero-list/:listName', (req, res) => {
     res.status(404).json({ error: 'List not found' });
 });
 
-//example curl command for backend
-//curl -X DELETE http://localhost:3000/delete-superhero-list/xyz
+
 app.delete('/delete-superhero-list/:listName', (req, res) => {
     const { listName } = req.params; 
     const existingList = db.get('superheroLists')
