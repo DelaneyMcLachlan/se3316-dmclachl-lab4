@@ -348,6 +348,28 @@
       "nickname": "User",
       "disableFlag": "enabled",
       "lists": []
+    },
+    {
+      "username": "SarBear",
+      "password": "$2b$10$MnzQQg26e0X1vVpBhsh52.79siISowVVZmp2UmZPfNfp3KD8cUtRi",
+      "email": "sarah_mackenzie@rogers.com",
+      "nickname": "SarBear",
+      "disableFlag": "enabled",
+      "lists": [
+        {
+          "listName": "Sarahs List",
+          "superheroes": [
+            333,
+            200,
+            1,
+            50
+          ],
+          "visibility": "public",
+          "description": "Sarah making a list ",
+          "lastEdited": "2023-12-07T01:10:56.839Z",
+          "rating": 0
+        }
+      ]
     }
   ]
 }
